@@ -1,4 +1,5 @@
-const { ObjectID } = require("bson");
+const { ObjectID, Timestamp } = require("bson");
+const { time } = require("console");
 const mongoose = require("mongoose");
 const DB_URL = "mongodb://localhost:27017/coffee-shop";
 const bookSchema = mongoose.Schema({
@@ -17,7 +18,7 @@ const bookSchema = mongoose.Schema({
     required: true,
   },
   time: {
-    type: TimeRanges,
+    type: String,
     required: true,
   },
   phone: {
@@ -28,7 +29,7 @@ const bookSchema = mongoose.Schema({
 
 const Booking = mongoose.model("booking", bookSchema);
 
-exports = class BookingApi {
+exports.BookModel = class BookingApi {
   // get all Bookings from database
   getAllBookings() {
     return new Promise((resolve, reject) => {
