@@ -5,6 +5,7 @@ exports.getProducts = (req, res, next) => {
   product
     .getAllProducts()
     .then((products) => {
+      product.getBestSellerOfCategoryCoffee();
       res.status(200).json(products);
     })
     .catch((err) => {
@@ -32,5 +33,28 @@ exports.getProduct = (req, res, next) => {
     })
     .catch((err) => {
       res.status(400).json({ message: "Get Product Failure", error: err });
+    });
+};
+exports.getBestSellerCoffee = (req, res, next) => {
+  let product = new productModel.ProductModel();
+  product
+    .getBestSellerOfCategoryCoffee()
+    .then((products) => {
+      res.status(200).json(products);
+    })
+    .catch((err) => {
+      res.status(400).json({ message: "Connection failure" });
+    });
+};
+
+exports.getProductsOfEachCategory = (req, res, next) => {
+  let product = new productModel.ProductModel();
+  product
+    .getProductsOfEachCategory()
+    .then((products) => {
+      res.status(200).json(products);
+    })
+    .catch((err) => {
+      res.status(400).json({ message: "Connection failure", err: err });
     });
 };

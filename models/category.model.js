@@ -10,6 +10,10 @@ const categorySchema = mongoose.Schema({
 
 const Category = mongoose.model("category", categorySchema);
 
+exports.getCategorModel = () => {
+  return Category;
+};
+
 exports.CategoryModel = class CategoryApi {
   // get all categories from database
   getAllCategories() {
@@ -49,4 +53,6 @@ exports.CategoryModel = class CategoryApi {
         });
     });
   }
+
+  // getProductsOfEachCategory
 };

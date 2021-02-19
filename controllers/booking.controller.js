@@ -8,11 +8,10 @@ exports.getBookings = (req, res, next) => {
       res.status(200).json(data);
     })
     .catch((err) => {
-      res.status(400).json({ message: "Connection failure" });
+      res.status(400).json({ message: "Connection failure", err: err });
     });
 };
 exports.addBooking = (req, res, next) => {
-  console.log(req.body);
   let booking = {
     firstName: req.body.firstName,
     lastName: req.body.lastName,

@@ -1,5 +1,9 @@
 const { ObjectID } = require("bson");
 const mongoose = require("mongoose");
+const Category = require("./category.model").getCategorModel();
+const {
+  getProductsOfEachCategory,
+} = require("../controllers/product.controller");
 const DB_URL = "mongodb://localhost:27017/coffee-shop";
 const productSchema = mongoose.Schema({
   name: {
@@ -14,6 +18,10 @@ const productSchema = mongoose.Schema({
   price: {
     type: Number,
     required: true,
+  },
+  image: {
+    type: String,
+    default: "menu-2.jpg",
   },
   category: {
     type: ObjectID,
@@ -79,6 +87,54 @@ exports.ProductModel = class ProductApi {
           mongoose.disconnect();
           reject(err);
         });
+    });
+  }
+
+  getBestSellerOfCategoryCoffee() {
+    return new Promise((resolve, reject) => {
+      mongoose
+        .connect(DB_URL)
+        .then(() => {
+          // '602adc8db12eb10d9ce6b37a'
+          return Product.find({ category: "602add3bb12eb10d9ce6b381" })
+            .limit(4)
+            .sort({ sales: -1 });
+        })
+        .then((productsBestSellerCoffee) => {
+          mongoose.disconnect();
+          resolve(productsBestSellerCoffee);
+        })
+        .catch((err) => {
+          mongoose.disconnect();
+          reject(err);
+        });
+    });
+  }
+  getProductsOfEachCategory() {
+    let MongoClient = require("mongodb").MongoClient;
+    let url = "mongodb://127.0.0.1:27017/";
+    return new Promise((resolve, reject) => {
+      MongoClient.connect(url, function (err, db) {
+        if (err) reject(err);
+        var dbo = db.db("coffee-shop");
+        dbo
+          .collection("categories")
+          .aggregate([
+            {
+              $lookup: {
+                from: "products",
+                localField: "_id",
+                foreignField: "category",
+                as: "catProducts",
+              },
+            },
+          ])
+          .toArray(function (err, res) {
+            if (err) reject(err);
+            resolve(res);
+            db.close();
+          });
+      });
     });
   }
 };
