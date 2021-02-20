@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const DB_URL = "mongodb://localhost:27017/coffee-shop";
+const DB_URL =
+  "mongodb+srv://abdo:12345678Abdo@cluster0.3rkji.mongodb.net/coffee-shop?retryWrites=true&w=majority";
 const categorySchema = mongoose.Schema({
   name: {
     type: String,

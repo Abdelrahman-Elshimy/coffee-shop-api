@@ -4,7 +4,8 @@ const Category = require("./category.model").getCategorModel();
 const {
   getProductsOfEachCategory,
 } = require("../controllers/product.controller");
-const DB_URL = "mongodb://localhost:27017/coffee-shop";
+const DB_URL =
+  "mongodb+srv://abdo:12345678Abdo@cluster0.3rkji.mongodb.net/coffee-shop?retryWrites=true&w=majority";
 const productSchema = mongoose.Schema({
   name: {
     type: String,
@@ -96,7 +97,7 @@ exports.ProductModel = class ProductApi {
         .connect(DB_URL)
         .then(() => {
           // '602adc8db12eb10d9ce6b37a'
-          return Product.find({ category: "602add3bb12eb10d9ce6b381" })
+          return Product.find({ category: "60311f762839581fc4b945a8" })
             .limit(4)
             .sort({ sales: -1 });
         })
@@ -112,7 +113,8 @@ exports.ProductModel = class ProductApi {
   }
   getProductsOfEachCategory() {
     let MongoClient = require("mongodb").MongoClient;
-    let url = "mongodb://127.0.0.1:27017/";
+    let url =
+      "mongodb+srv://abdo:12345678Abdo@cluster0.3rkji.mongodb.net/coffee-shop?retryWrites=true&w=majority";
     return new Promise((resolve, reject) => {
       MongoClient.connect(url, function (err, db) {
         if (err) reject(err);
